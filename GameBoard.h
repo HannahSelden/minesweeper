@@ -16,7 +16,7 @@ class GameBoard {
     public:
         GameBoard(int rows, int cols);
         ~GameBoard();
-        void setMines(int numMines);
+        void setMines(int numMines, int row, int col);
         int getNumAdjacents(int row, int col);
         bool isVisible(int row, int col);
         bool reveal(int row, int col);

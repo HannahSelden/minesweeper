@@ -1,5 +1,5 @@
 //
-// Created by Hannah on 2023-05-06.
+// Created by Hannah Selden on 2023-05-06.
 //
 
 #ifndef MINESWEEPER_SQUARE_H

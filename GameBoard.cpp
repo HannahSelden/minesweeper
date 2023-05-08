@@ -74,12 +74,14 @@ void GameBoard::cascade(int row, int col) {
     }
     map[row][col].isVisible = true;
 
-    for (int r=row-1; r<=row+1; r++) {
-        for (int c=col-1; c<=col+1; c++) {
-            if (r>=0 && r<ROWS && c>=0 && c<COLS && (r!=row || c!=col)) {
-                cascade(r, c);
-            }
+    int direction = -1;
+    for (int i=0; i<4; i++) {
+        int r = row + (i<2 ? direction : 0);
+        int c = col + (i<2 ? 0 : direction);
+        if (r>=0 && r<ROWS && c>=0 && c<COLS) {
+            cascade(r, c);
         }
+        direction *= -1;
     }
 }
 

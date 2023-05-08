@@ -9,14 +9,18 @@ using namespace std;
 
 int main() {
     char selection;
+    int selX;
+    int selY;
     int inputSuccess = false;
     int size = 0;
 
     cout << "Welcome to Minesweeper! ";
-    /*while(!inputSuccess){
+    while(!inputSuccess){
         cout << "\nPlease select grid size:\n\tA) 9x9\tB) 12x12\tC)15x15\n";
         cin >> selection;
-
+        cout << "\nMake an initial move. Write X value, enter, Y value\n";
+        cin >> selX;
+        cin >> selY;
         inputSuccess = true;
         switch(selection){
             case 'A': size=9; break;
@@ -24,12 +28,15 @@ int main() {
             case 'C': size=15; break;
             default: inputSuccess = false; break;
         }
-    }*/
+        if(selX>=size || selY>=size){
+            inputSuccess = false;
+        }
+    }
     size = 9;
     cout << "Creating game with " << size << "x" << size << " board.";
 
-    auto* board = new GameBoard(9, 9);
-    //board->setMines(10);
+    auto* board = new GameBoard(size, size);
+    board->setMines(10, selX, selY);
 
     for(int i=0; i<9; i++){
         cout << "\n";
@@ -42,7 +49,7 @@ int main() {
             }
         }
     }
-    board->cascade(4,3);
+    board->cascade(selX,selY);
 
     cout << "\n\n\n";
 
