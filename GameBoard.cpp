@@ -24,19 +24,24 @@ GameBoard::~GameBoard() {
     free(map);
 }
 
-void GameBoard::setMines(int numMines) {
+void GameBoard::setMines(int numMines, int row, int col) {
     srand(time(nullptr));
-    for(int i=0; i<numMines; i++){
-        int row = rand() % ROWS;
-        int col = rand() % COLS;
-        map[row][col].isClear = false;
 
-        for (int r=row-1; r<=row+1; r++) {
-            for (int c=col-1; c<=col+1; c++) {
-                if (r>=0 && r<ROWS && c>=0 && c<COLS && (r!=row || c!=col)) {
-                    map[r][c].numAdjacents++;
+    for(int i=0; i<numMines; i++){
+        int mineX = rand() % ROWS;
+        int mineY = rand() % COLS;
+        if(!(row-1<=mineX && mineX<=row+1)||!(col-1<=mineY && mineY<=col+1)){
+            map[mineX][mineY].isClear = false;
+            for (int x=mineX-1; x<=mineX+1; x++) {
+                for (int y=mineY-1; y<=mineY+1; y++) {
+                    if (x>=0 && x<ROWS && y>=0 && y<COLS && (x!=mineX || y!=mineY)) {
+                        map[x][y].numAdjacents++;
+                    }
                 }
             }
+        }
+        else{
+            i++;
         }
     }
 }

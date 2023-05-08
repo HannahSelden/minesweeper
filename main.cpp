@@ -29,7 +29,7 @@ int main() {
     cout << "Creating game with " << size << "x" << size << " board.";
 
     auto* board = new GameBoard(9, 9);
-    board->setMines(10);
+    //board->setMines(10);
 
     for(int i=0; i<9; i++){
         cout << "\n";
@@ -64,7 +64,7 @@ int main() {
         cout << "\n";
         for(int j=0; j<9; j++){
             if(board->reveal(i,j)){
-                cout << "| |";
+                cout << "|" << board->getNumAdjacents(i, j) << "|";
             }
             else {
                 cout << "|X|";
