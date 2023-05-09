@@ -6,6 +6,7 @@
 #define MINESWEEPER_GAMEBOARD_H
 
 #include "Square.h"
+#include "GridLoc.h"
 
 class GameBoard {
     private:
@@ -16,15 +17,13 @@ class GameBoard {
     public:
         GameBoard(int rows, int cols);
         ~GameBoard();
-        void setMines(int numMines, int row, int col);
-        int getNumAdjacents(int row, int col);
-        bool isVisible(int row, int col);
-        bool reveal(int row, int col);
-        bool isMarked(int row, int col);
-        void toggleMark(int row, int col);
-        void cascade(int row, int col);
-
-
+        void setMines(int numMines, GridLoc coord);
+        int getNumAdjacents(GridLoc coord);
+        bool isVisible(GridLoc coord);
+        bool reveal(GridLoc coord);
+        bool isMarked(GridLoc coord);
+        void toggleMark(GridLoc coord);
+        void cascade(GridLoc coord);
 };
 
 

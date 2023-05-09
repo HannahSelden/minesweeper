@@ -4,4 +4,4 @@ project(minesweeper)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(minesweeper
-        main.cpp GameBoard.h GameBoard.cpp Square.h)
+        main.cpp GameBoard.h GameBoard.cpp Square.h Player.cpp Player.h GridLoc.h)

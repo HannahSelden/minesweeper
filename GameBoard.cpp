@@ -24,13 +24,13 @@ GameBoard::~GameBoard() {
     free(map);
 }
 
-void GameBoard::setMines(int numMines, int row, int col) {
+void GameBoard::setMines(int numMines, GridLoc coord) {
     srand(time(nullptr));
 
     for(int i=0; i<numMines; i++){
         int mineX = rand() % ROWS;
         int mineY = rand() % COLS;
-        if(!(row-1<=mineX && mineX<=row+1)||!(col-1<=mineY && mineY<=col+1)){
+        if(!(coord.row-1<=mineX && mineX<=coord.row+1)||!(coord.col-1<=mineY && mineY<=coord.col+1)){
             map[mineX][mineY].isClear = false;
             for (int x=mineX-1; x<=mineX+1; x++) {
                 for (int y=mineY-1; y<=mineY+1; y++) {
@@ -46,40 +46,42 @@ void GameBoard::setMines(int numMines, int row, int col) {
     }
 }
 
-int GameBoard::getNumAdjacents(int row, int col) {
-    return map[row][col].numAdjacents;
+int GameBoard::getNumAdjacents(GridLoc coord) {
+    return map[coord.row][coord.col].numAdjacents;
 }
 
-bool GameBoard::isVisible(int row, int col) {
-    return map[row][col].isVisible;
+bool GameBoard::isVisible(GridLoc coord) {
+    return map[coord.row][coord.col].isVisible;
 }
 
-bool GameBoard::reveal(int row, int col) {
-    map[row][col].isVisible = true;
-    return map[row][col].isClear;
+bool GameBoard::reveal(GridLoc coord) {
+    map[coord.row][coord.col].isVisible = true;
+    return map[coord.row][coord.col].isClear;
 }
 
-bool GameBoard::isMarked(int row, int col) {
-    return map[row][col].isMarked;
+bool GameBoard::isMarked(GridLoc coord) {
+    return map[coord.row][coord.col].isMarked;
 }
 
-void GameBoard::toggleMark(int row, int col) {
-    map[row][col].isMarked = !(map[row][col].isMarked);
+void GameBoard::toggleMark(GridLoc coord) {
+    map[coord.row][coord.col].isMarked = !(map[coord.row][coord.col].isMarked);
 }
 
-void GameBoard::cascade(int row, int col) {
-    if(row<0 || row>ROWS || col<0 || col>COLS ||
-        !map[row][col].isClear || map[row][col].numAdjacents>0|| map[row][col].isVisible){
+void GameBoard::cascade(GridLoc coord) {
+    if(coord.row<0 || coord.row>ROWS || coord.col<0 || coord.col>COLS ||
+        !map[coord.row][coord.col].isClear ||
+        map[coord.row][coord.col].numAdjacents>0||
+        map[coord.row][coord.col].isVisible){
         return;
     }
-    map[row][col].isVisible = true;
+    map[coord.row][coord.col].isVisible = true;
 
     int direction = -1;
     for (int i=0; i<4; i++) {
-        int r = row + (i<2 ? direction : 0);
-        int c = col + (i<2 ? 0 : direction);
+        int r = coord.row + (i<2 ? direction : 0);
+        int c = coord.col + (i<2 ? 0 : direction);
         if (r>=0 && r<ROWS && c>=0 && c<COLS) {
-            cascade(r, c);
+            cascade(GridLoc {r, c});
         }
         direction *= -1;
     }
